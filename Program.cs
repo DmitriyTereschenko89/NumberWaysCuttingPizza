@@ -19,6 +19,34 @@
                         dp[0, r, c] = apples[r, c] > 0 ? 1 : 0;
                     }
                 }
+
+                int modulo = 1000000007;
+                for(int remain = 1; remain < k; ++remain)
+                {
+                    for(int r = 0; r < n; ++r)
+                    {
+                        for(int c = 0; c < m; ++c)
+                        {
+                            for(int nextR = r + 1; nextR < n; ++nextR)
+                            {
+                                if (apples[r, c] - apples[nextR, c] > 0)
+                                {
+                                    dp[remain, r, c] += dp[remain - 1, nextR, c];
+                                    dp[remain, r, c] %= modulo;
+                                }
+                            }
+
+                            for(int nextC = c + 1; nextC < m; ++nextC)
+                            {
+                                if (apples[r, c] - apples[r, nextC] > 0)
+                                {
+                                    dp[remain, r, c] += dp[remain - 1, r, nextC];
+                                    dp[remain, r, c] %= modulo;
+                                }
+                            }
+                        }
+                    }
+                }
                 return dp[k - 1, 0, 0];
             }
         }
